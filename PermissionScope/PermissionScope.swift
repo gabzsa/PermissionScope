@@ -338,8 +338,6 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             button.setTitle("Allow \(type)".localized.uppercased(), for: .normal)
         }
         
-        button.addTarget(self, action: Selector("request\(type)"), for: .touchUpInside)
-        
         switch type {
             
         case .contacts:
