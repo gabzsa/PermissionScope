@@ -26,33 +26,33 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     // MARK: UI Parameters
     
     /// Header UILabel with the message "Hey, listen!" by default.
-    public var headerLabel                 = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+    @objc public var headerLabel                 = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
     /// Header UILabel with the message "We need a couple things\r\nbefore you get started." by default.
-    public var bodyLabel                   = UILabel(frame: CGRect(x: 0, y: 0, width: 240, height: 70))
+    @objc public var bodyLabel                   = UILabel(frame: CGRect(x: 0, y: 0, width: 240, height: 70))
     /// Color for the close button's text color.
-    public var closeButtonTextColor        = UIColor(red: 0, green: 0.47, blue: 1, alpha: 1)
+    @objc public var closeButtonTextColor        = UIColor(red: 0, green: 0.47, blue: 1, alpha: 1)
     /// Color for the permission buttons' text color.
-    public var permissionButtonTextColor   = UIColor(red: 0, green: 0.47, blue: 1, alpha: 1)
+    @objc public var permissionButtonTextColor   = UIColor(red: 0, green: 0.47, blue: 1, alpha: 1)
     /// Color for the permission buttons' border color.
-    public var permissionButtonBorderColor = UIColor(red: 0, green: 0.47, blue: 1, alpha: 1)
+    @objc public var permissionButtonBorderColor = UIColor(red: 0, green: 0.47, blue: 1, alpha: 1)
     /// Width for the permission buttons.
-    public var permissionButtonBorderWidth  : CGFloat = 1
+    @objc public var permissionButtonBorderWidth  : CGFloat = 1
     /// Corner radius for the permission buttons.
-    public var permissionButtonCornerRadius : CGFloat = 6
+    @objc public var permissionButtonCornerRadius : CGFloat = 6
     /// Color for the permission labels' text color.
-    public var permissionLabelColor:UIColor = .black
+    @objc public var permissionLabelColor:UIColor = .black
     /// Font used for all the UIButtons
-    public var buttonFont:UIFont            = .boldSystemFont(ofSize: 14)
+    @objc public var buttonFont:UIFont            = .boldSystemFont(ofSize: 14)
     /// Font used for all the UILabels
-    public var labelFont:UIFont             = .systemFont(ofSize: 14)
+    @objc public var labelFont:UIFont             = .systemFont(ofSize: 14)
     /// Close button. By default in the top right corner.
-    public var closeButton                  = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 32))
+    @objc public var closeButton                  = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 32))
     /// Offset used to position the Close button.
-    public var closeOffset                  = CGSize.zero
+    @objc public var closeOffset                  = CGSize.zero
     /// Color used for permission buttons with authorized status
-    public var authorizedButtonColor        = UIColor(red: 0, green: 0.47, blue: 1, alpha: 1)
+    @objc public var authorizedButtonColor        = UIColor(red: 0, green: 0.47, blue: 1, alpha: 1)
     /// Color used for permission buttons with unauthorized status. By default, inverse of `authorizedButtonColor`.
-    public var unauthorizedButtonColor:UIColor?
+    @objc public var unauthorizedButtonColor:UIColor?
     /// Messages for the body label of the dialog presented when requesting access.
     lazy var permissionMessages: [PermissionType : String] = [PermissionType : String]()
     
@@ -93,14 +93,14 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
 	// Useful for direct use of the request* methods
     
     /// Callback called when permissions status change.
-    public var onAuthChange: authClosureType? = nil
+    @objc public var onAuthChange: authClosureType? = nil
     /// Callback called when the user taps on the close button.
-    public var onCancel: cancelClosureType?   = nil
+    @objc public var onCancel: cancelClosureType?   = nil
     
     /// Called when the user has disabled or denied access to notifications, and we're presenting them with a help dialog.
-    public var onDisabledOrDenied: cancelClosureType? = nil
+    @objc public var onDisabledOrDenied: cancelClosureType? = nil
 	/// View controller to be used when presenting alerts. Defaults to self. You'll want to set this if you are calling the `request*` methods directly.
-	public var viewControllerForAlerts : UIViewController?
+	@objc public var viewControllerForAlerts : UIViewController?
 
     /**
     Checks whether all the configured permission are authorized or not.
@@ -150,14 +150,14 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     
     - parameter backgroundTapCancels: True if a tap on the background should trigger the dialog dismissal.
     */
-    public init(backgroundTapCancels: Bool) {
+    @objc public init(backgroundTapCancels: Bool) {
         super.init(nibName: nil, bundle: nil)
 
 		viewControllerForAlerts = self
 		
         // Set up main view
         view.frame = UIScreen.main.bounds
-        view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        view.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleWidth]
         view.backgroundColor = UIColor(red:0, green:0, blue:0, alpha:0.7)
         view.addSubview(baseView)
         // Base View
@@ -206,19 +206,19 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     /**
     Convenience initializer. Same as `init(backgroundTapCancels: true)`
     */
-    public convenience init() {
+    @objc public convenience init() {
         self.init(backgroundTapCancels: true)
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    @objc required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    @objc override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName:nibNameOrNil, bundle:nibBundleOrNil)
     }
 
-    override public func viewWillLayoutSubviews() {
+    @objc override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let screenSize = UIScreen.main.bounds.size
         // Set background frame
@@ -569,7 +569,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     This function is called when we want to show the notifications
     alert, kicking off the entire process.
     */
-    func showingNotificationPermission() {
+    @objc func showingNotificationPermission() {
         let notifCenter = NotificationCenter.default
         
         notifCenter
@@ -596,12 +596,12 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     See `showingNotificationPermission` for a more detailed description
     of the entire process.
     */
-    func finishedShowingNotificationPermission () {
+    @objc func finishedShowingNotificationPermission () {
         NotificationCenter.default.removeObserver(self,
-            name: NSNotification.Name.UIApplicationWillResignActive,
+                                                  name: NSNotification.Name.UIApplicationWillResignActive,
             object: nil)
         NotificationCenter.default.removeObserver(self,
-            name: NSNotification.Name.UIApplicationDidBecomeActive,
+                                                  name: NSNotification.Name.UIApplicationDidBecomeActive,
             object: nil)
         
         notificationTimer?.invalidate()
@@ -663,9 +663,9 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     public func statusMicrophone() -> PermissionStatus {
         let recordPermission = AVAudioSession.sharedInstance().recordPermission()
         switch recordPermission {
-        case AVAudioSessionRecordPermission.denied:
+        case .denied:
             return .unauthorized
-        case AVAudioSessionRecordPermission.granted:
+        case .granted:
             return .authorized
         default:
             return .unknown
@@ -699,7 +699,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     - returns: Permission status for the requested type.
     */
     public func statusCamera() -> PermissionStatus {
-        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         switch status {
         case .authorized:
             return .authorized
@@ -717,7 +717,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         let status = statusCamera()
         switch status {
         case .unknown:
-            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo,
+            AVCaptureDevice.requestAccess(for: AVMediaType.video,
                 completionHandler: { granted in
                     self.detectAndCallback()
             })
@@ -1119,7 +1119,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     /**
     Called when the users taps on the close button.
     */
-    func cancel() {
+    @objc func cancel() {
         self.hide()
         
         if let onCancel = onCancel {
@@ -1205,7 +1205,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     button to check on a disabled permission. It calls detectAndCallback
     to recheck all the permissions and update the UI.
     */
-    func appForegroundedAfterSettings() {
+    @objc func appForegroundedAfterSettings() {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         
         detectAndCallback()
