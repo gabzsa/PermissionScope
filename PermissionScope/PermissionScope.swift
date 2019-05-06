@@ -339,6 +339,33 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         }
         
         button.addTarget(self, action: Selector("request\(type)"), for: .touchUpInside)
+        
+        switch type {
+            
+        case .contacts:
+            button.addTarget(self, action: #selector(requestContacts), for: .touchUpInside)
+        case .locationAlways:
+            button.addTarget(self, action: #selector(requestLocationAlways), for: .touchUpInside)
+        case .locationInUse:
+            button.addTarget(self, action: #selector(requestLocationInUse), for: .touchUpInside)
+        case .notifications:
+            button.addTarget(self, action: #selector(requestNotifications), for: .touchUpInside)
+        case .microphone:
+            button.addTarget(self, action: #selector(requestMicrophone), for: .touchUpInside)
+        case .camera:
+            button.addTarget(self, action: #selector(requestCamera), for: .touchUpInside)
+        case .photos:
+            button.addTarget(self, action: #selector(requestPhotos), for: .touchUpInside)
+        case .reminders:
+            button.addTarget(self, action: #selector(requestReminders), for: .touchUpInside)
+        case .events:
+            button.addTarget(self, action: #selector(requestEvents), for: .touchUpInside)
+        case .bluetooth:
+            button.addTarget(self, action: #selector(requestBluetooth), for: .touchUpInside)
+        case .motion:
+            button.addTarget(self, action: #selector(requestMotion), for: .touchUpInside)
+        }
+        
 
         button.accessibilityIdentifier = "permissionscope.button.\(type)".lowercased()
         
