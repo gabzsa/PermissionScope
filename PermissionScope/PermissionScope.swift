@@ -599,12 +599,12 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         
         notifCenter
             .removeObserver(self,
-                            name: NSNotification.Name.UIApplicationWillResignActive,
+                            name: UIApplication.willResignActiveNotification,
                             object: nil)
         notifCenter
             .addObserver(self,
                          selector: #selector(finishedShowingNotificationPermission),
-                         name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+                         name: UIApplication.didBecomeActiveNotification, object: nil)
         notificationTimer?.invalidate()
     }
     
@@ -623,10 +623,10 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     */
     @objc func finishedShowingNotificationPermission () {
         NotificationCenter.default.removeObserver(self,
-                                                  name: NSNotification.Name.UIApplicationWillResignActive,
+                                                  name: UIApplication.willResignActiveNotification,
             object: nil)
         NotificationCenter.default.removeObserver(self,
-                                                  name: NSNotification.Name.UIApplicationDidBecomeActive,
+                                                  name: UIApplication.didBecomeActiveNotification,
             object: nil)
         
         notificationTimer?.invalidate()
@@ -661,7 +661,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
                 .first { $0 is NotificationsPermission } as? NotificationsPermission
             let notificationsPermissionSet = notificationsPermission?.notificationCategories
 
-            NotificationCenter.default.addObserver(self, selector: #selector(showingNotificationPermission), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(showingNotificationPermission), name: UIApplication.willResignActiveNotification, object: nil)
             
             notificationTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(finishedShowingNotificationPermission), userInfo: nil, repeats: false)
             
@@ -686,7 +686,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     - returns: Permission status for the requested type.
     */
     @objc public func statusMicrophone() -> PermissionStatus {
-        let recordPermission = AVAudioSession.sharedInstance().recordPermission()
+        let recordPermission = AVAudioSession.sharedInstance().recordPermission
         switch recordPermission {
         case .denied:
             return .unauthorized
@@ -1176,9 +1176,9 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         alert.addAction(UIAlertAction(title: "Show me".localized,
             style: .default,
             handler: { action in
-                NotificationCenter.default.addObserver(self, selector: #selector(self.appForegroundedAfterSettings), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(self.appForegroundedAfterSettings), name: UIApplication.didBecomeActiveNotification, object: nil)
                 
-                let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
+                let settingsUrl = URL(string: UIApplication.openSettingsURLString)
                 UIApplication.shared.openURL(settingsUrl!)
         }))
         
@@ -1210,9 +1210,9 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         alert.addAction(UIAlertAction(title: "Show me".localized,
             style: .default,
             handler: { action in
-                NotificationCenter.default.addObserver(self, selector: #selector(self.appForegroundedAfterSettings), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(self.appForegroundedAfterSettings), name: UIApplication.didBecomeActiveNotification, object: nil)
                 
-                let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
+                let settingsUrl = URL(string: UIApplication.openSettingsURLString)
                 UIApplication.shared.openURL(settingsUrl!)
         }))
         
@@ -1231,7 +1231,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     to recheck all the permissions and update the UI.
     */
     @objc func appForegroundedAfterSettings() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
         
         detectAndCallback()
     }
